@@ -5,11 +5,11 @@
     "frontendDist": "../src"
   },
   "bundle": {
-    "active": true,
+    "active": false,
     "shortDescription": "Launcher updater",
     "longDescription": "Launcher updater",
-    "copyright": "YourGDPS",
-    "publisher": "YourUsername, YourGDPS",
+    "copyright": "GreenCatsServer",
+    "publisher": "GreenCatsServer",
     "icon": [
       "icons/icon.ico"
     ],
@@ -17,8 +17,8 @@
   },
   "productName": "updater",
   "mainBinaryName": "updater",
-  "identifier": "username.gdps.updater",
-  "version": "2.0.0",
+  "version": "2.1.0",
+  "identifier": "sa1nt.gcs.updater",
   "plugins": {},
   "app": {
     "windows": [
