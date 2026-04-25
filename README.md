@@ -1,15 +1,14 @@
 # GCS-Client
-### Лаунчер для [**GreenCatsServer**](https://gcs.icu) на [**Tauri**](https://tauri.app). Если ты это видишь — ты избранный! Или хакер.
+### Старая версия лаунчера для [**GreenCatsServer**](https://socials.gcs.skin) на [**Tauri**](https://tauri.app).
 
+> [!CAUTION]
+> Код этой версии ужасен и не рекомендуется к использованию, сохранён в качестве истории GreenCatsServer.
 
 Чтобы собрать лаунчер:
 1. Установи всё, что нужно [**Tauri**](https://tauri.app) — [**Prerequisites**](https://tauri.app/v1/guides/getting-started/prerequisites)
 2. В главной папке проекта (*или в папке **src-tauri***) введи в консоль `npm update`
 3. Для сборки лаунчера введи `npm run tauri build`, для проверки того, что написал — `npm run tauri dev`
 
-
 **Текущая версия клиента — 1.5.1**
 
 Открытая версия клиента: [**Лаунчер**](https://github.com/MegaSa1nt/GDPS-Client) и [**Апдейтер**](https://github.com/MegaSa1nt/GDPS-Updater) (*можно использовать на своей приватке*)
-
-> *Я очень прошу вас не сливать и не воровать всякие коды отсюда без разрешения :)*
