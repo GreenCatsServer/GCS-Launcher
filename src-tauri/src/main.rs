@@ -1,7 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::ffi::OsStr;
-use std::fs::File;
+use std::fs::{self, File};
 use std::io::{Read, Seek};
 use std::path::Path;
 use zip::read::ZipArchive;
@@ -17,6 +17,9 @@ use tauri::{AppHandle, Emitter};
 
 use futures_lite::StreamExt as _;
 use mundy::{Interest, Preferences};
+use rayon::prelude::*;
+use std::sync::atomic::{AtomicU64, Ordering};
+use std::hint::spin_loop;
 
 async fn extract_zip<R: Read>(app: AppHandle, reader: R, output_dir: &str) -> Result<(), String>
 where
@@ -94,6 +97,25 @@ async fn track_accent_color(app: AppHandle) -> Result<(), ()> {
     Ok(())
 }
 
+#[tauri::command]
+async fn delete_files(app: AppHandle, base_dir: String, files: Vec<String>) -> Result<(), ()> {
+    let next_to_emit = AtomicU64::new(0);
+    let total = files.len();
+
+    files.par_iter().enumerate().for_each(|(i, file)| {
+        let _ = fs::remove_file(Path::new(&base_dir).join(file));
+
+        while next_to_emit.load(Ordering::Acquire) != i as u64 {
+            spin_loop();
+        }
+
+        app.emit("fileDelete", format!("{:?}|{:?}", i + 1, total)).unwrap();
+        next_to_emit.fetch_add(1, Ordering::Release);
+    });
+
+    Ok(())
+}
+
 fn main() {
     let mut builder = tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
@@ -117,7 +139,8 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             check_processes,
             extract_archive,
-            track_accent_color
+            track_accent_color,
+            delete_files
         ])
         .setup(|app| {
             let open =
